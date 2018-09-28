@@ -28,8 +28,11 @@ defmodule UdpClient do
 
   ## Implementation
 
-  def handle_cast({:send, data, destination}, state) do
+  def handle_cast({:send, data, %{ip_address: ip_address, port: port} = destination}, %{socket: socket} = state) do
     Logger.debug("handle_cast :send, data: #{inspect(data)}, destination: #{inspect(destination)}, state: #{inspect(state)}")
+    host = ip_address |> to_charlist()
+    :gen_udp.send(socket, host, port, data)
+
     {:noreply, state}
   end
 end
