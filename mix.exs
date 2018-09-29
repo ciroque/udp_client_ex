@@ -32,7 +32,7 @@ defmodule UdpClientEx.MixProject do
       package: package(),
       source_url: "https://github.com/ciroque/udp_client_ex",
       start_permanent: Mix.env() == :prod,
-      version: "0.1.2",
+      version: "0.1.4",
     ]
   end
 end
