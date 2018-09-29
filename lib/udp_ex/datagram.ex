@@ -9,6 +9,14 @@ defmodule Datagram do
   @max_packet_size 8192
   @max_payload_size 8180
 
+  @doc """
+  Given a message to send handles preparing the message to be sent via UDP.
+  This may involve breaking the message into smaller pieces that can be handled by UDP.
+
+  Presently the message is expected to be binary (String.t()).
+
+  The result is an array of binary (Strings) entries that can be sent via UDP.
+  """
   def prepare_message(message) do
     size = byte_size(message)
     cond do
@@ -18,7 +26,8 @@ defmodule Datagram do
     end
   end
 
-  def split(message) do
+  @doc false
+  defp split(message) do
     {messages, _count} = split(next_split(message), [])
     |> chunkify()
     {:ok, messages}

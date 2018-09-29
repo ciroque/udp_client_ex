@@ -17,17 +17,20 @@ defmodule UdpClient do
 
   ## GenServer
 
+  @doc false
   def init(state) do
     {:ok, socket} = :gen_udp.open(@udp_port)
     {:ok, state |> Map.put(:socket, socket)}
   end
 
+  @doc false
   def start_link() do
     GenServer.start(__MODULE__, %{}, name: :udp_client_ex_server)
   end
 
   ## Implementation
 
+  @doc false
   def handle_cast({:send, data, %{ip_address: _, port: _} = destination}, %{socket: socket} = state) do
     Logger.debug("handle_cast :send, data: #{inspect(data)}, destination: #{inspect(destination)}, state: #{inspect(state)}")
 
@@ -41,15 +44,18 @@ defmodule UdpClient do
     {:noreply, state}
   end
 
+  @doc false
   defp send_message([], %{socket: _socket, ip_address: _ip_address, port: _port}) do
     Logger.warn("empty list...")
   end
 
+  @doc false
   defp send_message([datagram], %{socket: socket, ip_address: ip_address, port: port}) do
     host = ip_address |> to_charlist()
     :gen_udp.send(socket, host, port, datagram)
   end
 
+  @doc false
   defp send_message([_|_] = datagrams, %{socket: _socket, ip_address: _ip_address, port: _port} = destination) do
     datagrams
     |> Enum.map(fn datagram -> send_message([datagram], destination) end)

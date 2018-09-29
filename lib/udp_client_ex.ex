@@ -17,6 +17,7 @@ defmodule UdpClientEx do
     UdpClient.send(data, destination)
   end
 
+  @doc false
   def start(_type, _args) do
     UdpClient.start_link()
   end
