@@ -12,7 +12,7 @@ defmodule UdpClient do
   ## Public API
 
   def send(data, destination) do
-    GenServer.cast(:udp_ex_server, {:send, data, destination})
+    GenServer.cast(:udp_client_ex_server, {:send, data, destination})
   end
 
   ## GenServer
@@ -23,7 +23,7 @@ defmodule UdpClient do
   end
 
   def start_link() do
-    GenServer.start(__MODULE__, %{}, name: :udp_ex_server)
+    GenServer.start(__MODULE__, %{}, name: :udp_client_ex_server)
   end
 
   ## Implementation
@@ -41,18 +41,16 @@ defmodule UdpClient do
     {:noreply, state}
   end
 
-  def send_message([], %{socket: _socket, ip_address: _ip_address, port: _port}) do
+  defp send_message([], %{socket: _socket, ip_address: _ip_address, port: _port}) do
     Logger.warn("empty list...")
   end
 
-  def send_message([datagram], %{socket: socket, ip_address: ip_address, port: port}) do
-    Logger.debug("single item list... #{inspect(datagram)}")
+  defp send_message([datagram], %{socket: socket, ip_address: ip_address, port: port}) do
     host = ip_address |> to_charlist()
     :gen_udp.send(socket, host, port, datagram)
   end
 
-  def send_message([_|_] = datagrams, %{socket: _socket, ip_address: _ip_address, port: _port} = destination) do
-    Logger.debug("multiple item list... #{datagrams}")
+  defp send_message([_|_] = datagrams, %{socket: _socket, ip_address: _ip_address, port: _port} = destination) do
     datagrams
     |> Enum.map(fn datagram -> send_message([datagram], destination) end)
   end
