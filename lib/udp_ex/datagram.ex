@@ -21,7 +21,7 @@ defmodule Datagram do
     size = byte_size(message)
     cond do
       size > @max_message_size -> {:error, :message_too_long}
-      size > @max_packet_size -> message |> split()
+      size > @max_packet_size -> {:ok, message |> split()}
       true -> {:ok, [message]}
     end
   end
@@ -30,7 +30,17 @@ defmodule Datagram do
   defp split(message) do
     {messages, _count} = split(next_split(message), [])
     |> chunkify()
-    {:ok, messages}
+    messages
+  end
+
+  @doc false
+  def split({payload, message, length}, list) when length > @max_payload_size do
+    split(next_split(message), [payload | list])
+  end
+
+  @doc false
+  def split({payload, message, _length}, list) do
+    [message | [payload | list]] |> Enum.reverse()
   end
 
   defp chunkify(messages) do
@@ -45,14 +55,6 @@ defmodule Datagram do
         {[encoded_message | encoded_messages], idx + 1}
       end
     )
-  end
-
-  def split({payload, message, length}, list) when length > @max_payload_size do
-    split(next_split(message), [payload | list])
-  end
-
-  def split({payload, message, _length}, list) do
-    [message | [payload | list]] |> Enum.reverse()
   end
 
   defp next_split(message) do
