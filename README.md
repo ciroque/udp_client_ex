@@ -1,6 +1,8 @@
-# UdpClientEx
+# UDP Client Ex
 
-**TODO: Add description**
+Simple UDP client for Elixir.
+
+[![CircleCI](https://circleci.com/gh/ciroque/udp_client_ex.svg?style=svg)](https://circleci.com/gh/ciroque/udp_client_ex)
 
 ## Installation
 
@@ -15,7 +17,13 @@ def deps do
 end
 ```
 
-Documentation can be generated with [ExDoc](https://github.com/elixir-lang/ex_doc)
-and published on [HexDocs](https://hexdocs.pm). Once published, the docs can
-be found at [https://hexdocs.pm/udp_client_ex](https://hexdocs.pm/udp_client_ex).
+You also need to add :udp_client_ex to your applications to ensure proper initialization:
+
+```elixir
+def application do
+  [applications: [:udp_client_ex]]
+end
+```
+
+Eventually the library will be available on Hex and the documents found [here](https://hexdocs.pm/udp_client_ex).
 
