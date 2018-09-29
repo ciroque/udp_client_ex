@@ -1,0 +1,14 @@
+---
+version: 2
+jobs:
+  build:
+    docker:
+    - image: circleci/elixir:1.6.1
+    working_directory: ~/udp_client_ex
+    steps:
+    - checkout
+
+    - run: mix deps.get
+    - run: mix ecto.create
+    - run: mix test
+    - run: mix docs
