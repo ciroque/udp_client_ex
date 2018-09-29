@@ -1,12 +1,18 @@
 defmodule UdpClientEx do
   @moduledoc """
-  Documentation for UdpClientEx.
+  UdpClientEx.
+
+  A simple client that can be used to send messages via UDP.
+
   """
 
   use Application
 
   @behaviour UdpClientBehaviour
 
+  @doc """
+  Sends a message to a destination.
+  """
   def send(data, destination) do
     UdpClient.send(data, destination)
   end

@@ -7,7 +7,14 @@ defmodule UdpClientEx.MixProject do
       version: "0.1.0",
       elixir: "~> 1.6",
       start_permanent: Mix.env() == :prod,
-      deps: deps()
+      deps: deps(),
+
+      name: "UDP Client Ex",
+      source_url: "https://github.com/ciroque/udp_client_ex",
+      docs: [
+        main: "UDP Client Ex",
+        extras: []
+      ]
     ]
   end
 
@@ -19,5 +26,8 @@ defmodule UdpClientEx.MixProject do
   end
 
   defp deps do
+    [
+      {:ex_doc, "~> 0.18.0", only: :dev, runtime: false}
+    ]
   end
 end
