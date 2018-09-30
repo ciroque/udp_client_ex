@@ -12,4 +12,4 @@ jobs:
     - run: mix deps.get
     - run: mix test
     - run: mix docs
-    - run: mix hex.publish
+    - run: mix hex.publish --yes
