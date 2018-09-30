@@ -16,6 +16,7 @@ defmodule UdpClientEx.MixProject do
 
   defp package() do
     [
+      organization: "ciroque-enterprises",
       licenses: ["MIT"],
       links: %{"GitHub" => "https://github.com/ciroque/udp_client_ex"},
       maintainers: ["Steve Wagner (scalawagz@outlook.com"]
